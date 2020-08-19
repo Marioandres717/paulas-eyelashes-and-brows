@@ -3,7 +3,7 @@ const rs = require('jsrsasign')
 const cred = require('../credentials.json')
 const timestamp = require('./utils/current-date-to-unix-timestamp')
 
-exports.handler = async () => {
+const signToken = () => {
   const oHeader = { alg: 'RS256', typ: 'JWT' }
   const oPayload = {
     iss: cred.client_email,
@@ -16,11 +16,14 @@ exports.handler = async () => {
   const sPayload = JSON.stringify(oPayload)
   const sSignature = cred.private_key
 
-  const sJWS = rs.jws.JWS.sign('RS256', sHeader, sPayload, sSignature)
+  return rs.jws.JWS.sign('RS256', sHeader, sPayload, sSignature)
+}
 
+exports.handler = async () => {
   try {
+    const sJWS = signToken()
     const token = await axios({
-      url: cred.token_uri,
+      url: 'https://oauth2.googleapis.com/token',
       method: 'POST',
       ContentType: 'application/x-www-form-urlencoded',
       data: {
@@ -36,7 +39,7 @@ exports.handler = async () => {
   } catch (error) {
     const { response } = error
     const { request, ...errorObject } = response
-    console.log(errorObject)
+
     return {
       statusCode: 500,
       body: JSON.stringify(errorObject),
