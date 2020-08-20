@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/layout'
+import Calendar from '../components/calendar'
 
 const Booking = () => {
   const [events, setEvents] = useState([])
@@ -20,7 +21,7 @@ const Booking = () => {
   return (
     <Layout>
       <h1>Booking</h1>
-      <pre>{JSON.stringify(events)}</pre>
+      <Calendar />
     </Layout>
   )
 }
