@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Layout from '../components/layout'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import React from 'react'
 
-const Calendar = () => (
-  <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
-)
+const Calendar = () => <h1>Calendar</h1>
 
 export default Calendar

@@ -3,8 +3,8 @@ import Layout from '../components/layout'
 import Calendar from '../components/calendar'
 
 const Booking = () => {
-  const [events, setEvents] = useState([])
-  const [hasError, setErrors] = useState(false)
+  // const [events, setEvents] = useState([])
+  // const [hasError, setErrors] = useState(false)
 
   async function fetchData() {
     const res = await fetch('/api/get-calendar-events')
