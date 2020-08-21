@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react'
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
+import { useEffect, useState } from 'react'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 import Layout from '../components/layout'
 import Calendar from '../components/calendar'
 
 const Booking = () => {
-  // const [events, setEvents] = useState([])
-  // const [hasError, setErrors] = useState(false)
+  const [events, setEvents] = useState([])
+  const [hasError, setErrors] = useState(false)
 
   async function fetchData() {
     const res = await fetch('/api/get-calendar-events')
@@ -19,10 +23,13 @@ const Booking = () => {
   }, [])
 
   return (
-    <Layout>
-      <h1>Booking</h1>
-      <Calendar />
-    </Layout>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Layout>
+        <div sx={{ maxWidth: 300 }}>
+          <Calendar />
+        </div>
+      </Layout>
+    </MuiPickersUtilsProvider>
   )
 }
 
