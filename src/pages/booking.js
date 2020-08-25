@@ -1,33 +1,48 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 import Layout from '../components/layout'
-import Calendar from '../components/calendar'
+import TimeGrid from '../components/time-grid'
+import Grid from '@material-ui/core/Grid'
+import { Paper } from '@material-ui/core'
+import useEvents from '../hooks/useEvents'
+import { DatePicker } from '@material-ui/pickers'
 
 const Booking = () => {
-  const [events, setEvents] = useState([])
-  const [hasError, setErrors] = useState(false)
+  const [date, setDate] = useState(new Date())
+  const { filteredEvents, hasError, loading, filterEvents } = useEvents()
 
-  async function fetchData() {
-    const res = await fetch('/api/get-calendar-events')
-    res
-      .json()
-      .then(res => setEvents(res))
-      .catch(err => setErrors(err))
+  function onChangeDate(d) {
+    setDate(d.toISOString())
+    return filterEvents(date)
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  if (hasError) {
+    return <h1>HAS ERROR!!!!</h1>
+  }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Layout>
-        <div sx={{ maxWidth: 300 }}>
-          <Calendar />
-        </div>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={4}>
+            <Paper sx={{ width: 350 }}>
+              <DatePicker
+                autoOk
+                variant="static"
+                openTo="date"
+                value={date}
+                onChange={onChangeDate}
+              />
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} sm={8}>
+            {loading ? <h1>Loading!</h1> : <TimeGrid events={filteredEvents} />}
+          </Grid>
+        </Grid>
       </Layout>
     </MuiPickersUtilsProvider>
   )
