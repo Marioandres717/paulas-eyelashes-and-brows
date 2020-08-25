@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 function useEvents() {
-  const [data, setData] = useState([])
+  const [events, setEvents] = useState([])
   const [filteredEvents, setFilteredEvents] = useState([])
   const [loading, setLoading] = useState(false)
   const [hasError, setErrors] = useState(false)
@@ -12,19 +12,19 @@ function useEvents() {
     res
       .json()
       .then(res => {
-        setData(res)
-        setFilteredEvents(res)
+        setEvents(res)
+        setFilteredEvents(filterEvents())
         setLoading(false)
       })
       .catch(err => setErrors(err))
   }
 
   function filterEvents(date = new Date().toISOString()) {
-    if (data.length <= 0) {
+    if (events.length <= 0) {
       return []
     }
 
-    const filtered = data.filter(
+    const filtered = events.filter(
       event => new Date(event.start.dateTime) >= new Date(date)
     )
 
