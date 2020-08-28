@@ -15,8 +15,9 @@ const Booking = () => {
   const { filteredEvents, hasError, loading, filterEvents } = useEvents()
 
   function onChangeDate(d) {
-    setDate(d.toISOString())
-    return filterEvents(date)
+    const calendarDate = d.toISOString()
+    setDate(calendarDate)
+    return filterEvents(calendarDate)
   }
 
   if (hasError) {
