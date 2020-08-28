@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import justADate from '../utils/just-a-date'
 
 function useEvents() {
   const [events, setEvents] = useState([])
@@ -24,9 +25,12 @@ function useEvents() {
       return []
     }
 
-    const filtered = events.filter(
-      event => new Date(event.start.dateTime) >= new Date(date)
-    )
+    const filtered = events.filter(event => {
+      const eventDate = justADate(event.start.dateTime).toISOString()
+      const filterDate = justADate(date).toISOString()
+
+      return eventDate === filterDate
+    })
 
     setFilteredEvents(filtered)
     return filtered
