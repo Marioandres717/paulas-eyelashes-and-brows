@@ -1,18 +1,20 @@
 const axios = require('axios')
-const MAX_RESULTS = 1000
-
-exports.handler = async () => {
+const SEND_NOTIFICATIONS = true
+exports.handler = async event => {
   try {
+    const { id, start, end, attendees } = JSON.parse(event.body)
+
     const result = await axios({
       url: `${process.env.API_URL}/get-access-token`,
       method: 'GET',
     }).then(({ data }) => {
       return axios({
-        url: `https://www.googleapis.com/calendar/v3/calendars/${process.env.CALENDAR_EMAIL}/events?singleEvents=true&maxResults=${MAX_RESULTS}&orderBy=startTime`,
-        method: 'GET',
+        url: `https://www.googleapis.com/calendar/v3/calendars/${process.env.CALENDAR_EMAIL}/events/${id}?sendNotifications=${SEND_NOTIFICATIONS}`,
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${data.access_token}`,
         },
+        body: { start, end, attendees },
       })
     })
 

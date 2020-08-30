@@ -1,10 +1,32 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import { Paper } from '@material-ui/core'
+import { Paper, Button } from '@material-ui/core'
 import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 const eventList = events => {
+  async function book(event) {
+    const e = {
+      ...event,
+      attendees: [
+        {
+          email: 'huh@gmail.com',
+        },
+      ],
+    }
+
+    const res = await fetch('/api/update-calendar-event', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(e),
+    })
+    res.json().then(res => {
+      console.log('res', res)
+    })
+  }
+
   return events.map(event => (
     <Grid item xs={12} key={event.id}>
       <Paper
@@ -20,19 +42,22 @@ const eventList = events => {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1">
-                Standard license
+                {event.summary}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                Full resolution 1920x1080 • JPEG
+                {event.start.dateTime} - {event.end.dateTime}
               </Typography>
-              <Typography variant="body2" color="textSecondary">
-                ID: 1030114
-              </Typography>
+              <Typography variant="body2">{event.location}</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                Remove
-              </Typography>
+              <Button
+                sx={{ marginLeft: 'auto' }}
+                variant="contained"
+                color="primary"
+                onClick={() => book(event)}
+              >
+                Book
+              </Button>
             </Grid>
           </Grid>
           <Grid item>

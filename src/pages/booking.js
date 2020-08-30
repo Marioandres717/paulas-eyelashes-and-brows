@@ -36,6 +36,7 @@ const Booking = () => {
                 openTo="date"
                 value={date}
                 onChange={onChangeDate}
+                disablePast={true}
               />
             </Paper>
           </Grid>
