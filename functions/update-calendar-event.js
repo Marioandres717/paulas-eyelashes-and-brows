@@ -2,7 +2,7 @@ const axios = require('axios')
 const SEND_NOTIFICATIONS = true
 exports.handler = async event => {
   try {
-    const { id, start, end, attendees } = JSON.parse(event.body)
+    const { id, start, end, visibility } = JSON.parse(event.body)
 
     const result = await axios({
       url: `${process.env.API_URL}/get-access-token`,
@@ -14,7 +14,7 @@ exports.handler = async event => {
         headers: {
           Authorization: `Bearer ${data.access_token}`,
         },
-        body: { start, end, attendees },
+        body: { start, end, visibility },
       })
     })
 

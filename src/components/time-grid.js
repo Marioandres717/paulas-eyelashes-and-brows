@@ -8,11 +8,7 @@ const eventList = events => {
   async function book(event) {
     const e = {
       ...event,
-      attendees: [
-        {
-          email: 'huh@gmail.com',
-        },
-      ],
+      visibility: 'private',
     }
 
     const res = await fetch('/api/update-calendar-event', {
