@@ -18,9 +18,10 @@ const eventList = events => {
       },
       body: JSON.stringify(e),
     })
-    res.json().then(res => {
-      console.log('res', res)
-    })
+      .then(res => {
+        console.log('res', res)
+      })
+      .catch(err => console.error(err))
   }
 
   return events.map(event => (
