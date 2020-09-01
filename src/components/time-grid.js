@@ -4,26 +4,7 @@ import { Paper, Button } from '@material-ui/core'
 import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
-const eventList = events => {
-  async function book(event) {
-    const e = {
-      ...event,
-      visibility: 'private',
-    }
-
-    const res = await fetch('/api/update-calendar-event', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(e),
-    })
-      .then(res => {
-        console.log('res', res)
-      })
-      .catch(err => console.error(err))
-  }
-
+const eventList = (events, book) => {
   return events.map(event => (
     <Grid item xs={12} key={event.id}>
       <Paper
@@ -66,10 +47,10 @@ const eventList = events => {
   ))
 }
 
-const TimeGrid = ({ events }) => {
+const TimeGrid = ({ events, book }) => {
   return (
     <Grid spacing={3} container>
-      {eventList(events)}
+      {eventList(events, book)}
     </Grid>
   )
 }

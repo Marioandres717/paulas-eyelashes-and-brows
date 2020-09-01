@@ -2,7 +2,8 @@ const axios = require('axios')
 
 exports.handler = async event => {
   try {
-    const { id, start, end, visibility } = JSON.parse(event.body)
+    const body = JSON.parse(event.body)
+    const { id } = body
 
     const result = await axios({
       url: `${process.env.API_URL}/get-access-token`,
@@ -15,13 +16,13 @@ exports.handler = async event => {
           Authorization: `Bearer ${data.access_token}`,
           'Content-Type': 'application/json',
         },
-        data: { start, end, visibility },
+        data: body,
       })
     })
 
     return {
       statusCode: 200,
-      body: JSON.stringify(result.data.items),
+      body: JSON.stringify(result.data),
     }
   } catch (error) {
     return {

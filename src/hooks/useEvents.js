@@ -36,6 +36,13 @@ function useEvents() {
     return filtered
   }
 
+  function updateEvent(event) {
+    const eventIndex = events.findIndex(e => e.id === event.id)
+    const copyArr = [...events]
+    copyArr[eventIndex] = event
+    setEvents(copyArr)
+  }
+
   useEffect(() => {
     fetchEvents()
   }, [])
@@ -46,6 +53,7 @@ function useEvents() {
     hasError,
     fetchEvents,
     filterEvents,
+    updateEvent,
   }
 }
 

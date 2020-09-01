@@ -12,12 +12,37 @@ import { DatePicker } from '@material-ui/pickers'
 
 const Booking = () => {
   const [date, setDate] = useState(new Date())
-  const { filteredEvents, hasError, loading, filterEvents } = useEvents()
+  const {
+    filteredEvents,
+    hasError,
+    loading,
+    filterEvents,
+    updateEvent,
+  } = useEvents()
 
   function onChangeDate(d) {
     const calendarDate = d.toISOString()
     setDate(calendarDate)
     return filterEvents(calendarDate)
+  }
+
+  async function bookAppointment(event) {
+    const e = {
+      ...event,
+      visibility: 'private',
+    }
+
+    const res = await fetch('/api/update-calendar-event', {
+      method: 'POST',
+      body: JSON.stringify(e),
+    })
+
+    res
+      .json()
+      .then(event => {
+        updateEvent(event)
+      })
+      .catch(err => console.error(err))
   }
 
   if (hasError) {
@@ -42,7 +67,11 @@ const Booking = () => {
           </Grid>
 
           <Grid item xs={12} sm={8}>
-            {loading ? <h1>Loading!</h1> : <TimeGrid events={filteredEvents} />}
+            {loading ? (
+              <h1>Loading!</h1>
+            ) : (
+              <TimeGrid events={filteredEvents} book={bookAppointment} />
+            )}
           </Grid>
         </Grid>
       </Layout>
