@@ -20,12 +20,12 @@ const Booking = () => {
     updateEvent,
   } = useEvents()
 
-  function onChangeDate(d) {
+  const onChangeDate = d => {
     setDate(d)
     return filterEvents(d)
   }
 
-  async function bookAppointment(event) {
+  const bookAppointment = async event => {
     const e = {
       ...event,
       visibility: 'private',

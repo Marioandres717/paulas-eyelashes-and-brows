@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import { Paper, Button } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
+import FormDialog from './form-dialog'
 
 const eventList = (events, book) => {
   return events.map(event => (
@@ -28,14 +29,15 @@ const eventList = (events, book) => {
               <Typography variant="body2">{event.location}</Typography>
             </Grid>
             <Grid item>
-              <Button
+              {/* <Button
                 sx={{ marginLeft: 'auto' }}
                 variant="contained"
                 color="primary"
                 onClick={() => book(event)}
               >
                 Book
-              </Button>
+              </Button> */}
+              <FormDialog />
             </Grid>
           </Grid>
           <Grid item>
