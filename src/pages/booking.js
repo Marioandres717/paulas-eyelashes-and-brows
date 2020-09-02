@@ -21,9 +21,8 @@ const Booking = () => {
   } = useEvents()
 
   function onChangeDate(d) {
-    const calendarDate = d.toISOString()
-    setDate(calendarDate)
-    return filterEvents(calendarDate)
+    setDate(d)
+    return filterEvents(d)
   }
 
   async function bookAppointment(event) {

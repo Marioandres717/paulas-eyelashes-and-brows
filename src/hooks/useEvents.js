@@ -20,11 +20,10 @@ function useEvents() {
       .catch(err => setErrors(err))
   }
 
-  function filterEvents(date = new Date().toISOString()) {
+  function filterEvents(date = justADate(new Date()).toISOString()) {
     if (events.length <= 0) {
       return []
     }
-
     const filtered = events.filter(event => {
       const eventDate = justADate(event.start.dateTime).toISOString()
       const filterDate = justADate(date).toISOString()
