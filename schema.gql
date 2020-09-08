@@ -1,0 +1,10 @@
+type Service {
+  name: String!
+}
+
+type Appointment {
+  enventID: String!
+  email: String
+  date: String!
+  typeOfService: Service!
+}
