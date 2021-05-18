@@ -1,58 +1,53 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import justADate from '../utils/just-a-date'
 
 function useEvents() {
-  const [events, setEvents] = useState([])
-  const [filteredEvents, setFilteredEvents] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [hasError, setErrors] = useState(false)
+  const [state, setState] = useState({
+    events: [],
+    status: 'idle',
+    error: null,
+  })
 
   async function fetchEvents() {
-    setLoading(true)
-    const res = await fetch('/api/get-calendar-events')
-    res
-      .json()
-      .then(res => {
-        setEvents(res)
-        setFilteredEvents(filterEvents())
-        setLoading(false)
+    setState({ status: 'pending' })
+    const response = await fetch('/api/get-calendar-events')
+    try {
+      const events = await response.json()
+      setState({
+        events,
+        status: 'resolved',
       })
-      .catch(err => setErrors(err))
+    } catch (error) {
+      setState({ status: 'rejected', error })
+    }
   }
 
   function filterEvents(date = justADate(new Date()).toISOString()) {
-    if (events.length <= 0) {
+    if (state.events.length <= 0) {
       return []
     }
-    const filtered = events.filter(event => {
+    const filtered = state.events.filter(event => {
       const eventDate = justADate(event.start.dateTime).toISOString()
       const filterDate = justADate(date).toISOString()
 
       return eventDate === filterDate
     })
 
-    setFilteredEvents(filtered)
     return filtered
   }
 
   function updateEvent(event) {
-    const eventIndex = events.findIndex(e => e.id === event.id)
-    const copyArr = [...events]
+    const eventIndex = state.events.findIndex(e => e.id === event.id)
+    const copyArr = [...state.events]
     copyArr[eventIndex] = event
-    setEvents(copyArr)
+    setState({ events: copyArr })
   }
 
-  useEffect(() => {
-    fetchEvents()
-  }, [])
-
   return {
-    filteredEvents,
-    loading,
-    hasError,
+    state,
     fetchEvents,
-    filterEvents,
     updateEvent,
+    filterEvents,
   }
 }
 
