@@ -38,10 +38,10 @@ exports.handler = async () => {
     }
   } catch (error) {
     const { response } = error
-    const { request, ...errorObject } = response
+    const { request, status, ...errorObject } = response
 
     return {
-      statusCode: 500,
+      statusCode: status,
       body: JSON.stringify(errorObject),
     }
   }

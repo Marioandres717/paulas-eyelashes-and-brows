@@ -4,7 +4,7 @@ const MAX_RESULTS = 1000
 exports.handler = async () => {
   try {
     const result = await axios({
-      url: `${process.env.API_URL}/get-access-token`,
+      url: `${process.env.API_URL}/api/get-access-token`,
       method: 'GET',
     }).then(({ data }) => {
       return axios({
@@ -21,9 +21,12 @@ exports.handler = async () => {
       body: JSON.stringify(result.data.items),
     }
   } catch (error) {
+    const { response } = error
+    const { request, status, ...errorObject } = response
+
     return {
-      statusCode: 500,
-      body: JSON.stringify(error),
+      statusCode: status,
+      body: JSON.stringify(errorObject),
     }
   }
 }
