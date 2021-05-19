@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import justADate from '../utils/just-a-date'
+import { formatISO } from 'date-fns'
 
 function useEvents() {
   const [state, setState] = useState({
@@ -22,14 +22,18 @@ function useEvents() {
     }
   }
 
-  function filterEvents(date = justADate(new Date()).toISOString()) {
+  function filterEvents(date = formatISO(new Date())) {
     if (state.events.length <= 0) {
       return []
     }
     const filtered = state.events.filter(event => {
       if (!event.start.dateTime) return false
-      const eventDate = justADate(event.start.dateTime).toISOString()
-      const filterDate = justADate(date).toISOString()
+      const eventDate = formatISO(new Date(event.start.dateTime), {
+        representation: 'date',
+      })
+      const filterDate = formatISO(date, {
+        representation: 'date',
+      })
 
       return eventDate === filterDate
     })
