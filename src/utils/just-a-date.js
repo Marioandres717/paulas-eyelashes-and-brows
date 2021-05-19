@@ -1,7 +1,7 @@
 function JustADate(initDate) {
+  if (!initDate) return
+
   let utcMidnightDateObj = null
-  // if no date supplied, use Now.
-  if (!initDate) initDate = new Date()
 
   // if initDate specifies a timezone offset, or is already UTC, just keep the date part, reflecting the date _in that timezone_
   if (

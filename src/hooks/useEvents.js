@@ -27,6 +27,7 @@ function useEvents() {
       return []
     }
     const filtered = state.events.filter(event => {
+      if (!event.start.dateTime) return false
       const eventDate = justADate(event.start.dateTime).toISOString()
       const filterDate = justADate(date).toISOString()
 

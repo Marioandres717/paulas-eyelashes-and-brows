@@ -25,10 +25,7 @@ const Booking = () => {
     fetch()
   }, [])
 
-  const onChangeDate = d => {
-    setDate(d)
-    return filterEvents(d)
-  }
+  const onChangeDate = d => setDate(d)
 
   const bookAppointment = async event => {
     const e = {
@@ -74,7 +71,7 @@ const Booking = () => {
           {status === 'pending' ? (
             <h1>Loading!</h1>
           ) : (
-            <TimeGrid events={events} book={bookAppointment} />
+            <TimeGrid events={filterEvents(date)} book={bookAppointment} />
           )}
         </Grid>
       </Grid>
