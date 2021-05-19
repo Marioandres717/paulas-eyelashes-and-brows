@@ -1,5 +1,5 @@
 const axios = require('axios')
-const MAX_RESULTS = 1000
+const MAX_RESULTS = 200
 
 exports.handler = async () => {
   try {
