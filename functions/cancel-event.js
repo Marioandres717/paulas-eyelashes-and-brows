@@ -19,7 +19,9 @@ exports.handler = async (event, _context, callback) => {
       },
     })
 
-    const changeEventVisibilityToPublic = await axios({
+    const customer = JSON.parse(data.description)
+
+    await axios({
       url: `${process.env.GATSBY_API_URL}/api/update-event`,
       method: 'POST',
       headers: {
@@ -35,14 +37,27 @@ exports.handler = async (event, _context, callback) => {
       }),
     })
 
+    const cancelEmailSent = await axios({
+      url: `${process.env.GATSBY_API_URL}/api/send-email`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        ...customer,
+        subject: 'Lashes Appointment - Canceled',
+        text: `You have cancel your appointment with Paula.`,
+      },
+    })
+
     return {
       statusCode: 200,
-      body: JSON.stringify(changeEventVisibilityToPublic.data),
+      body: JSON.stringify(cancelEmailSent.data),
     }
   } catch (e) {
     return {
       statusCode: 500,
-      body: JSON.stringify(e),
+      body: JSON.stringify(e.message),
     }
   }
 }

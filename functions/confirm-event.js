@@ -30,9 +30,25 @@ exports.handler = async (event, _context, callback) => {
       }),
     })
 
+    const { id, description } = changeEventStatusToConfirmed.data
+    const customer = JSON.parse(description)
+
+    const emailSent = await axios({
+      url: `${process.env.GATSBY_API_URL}/api/send-email`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        ...customer,
+        subject: 'Lashes Appointment - Confirmed',
+        text: `You have confirmed the appointment with Paula for eye lashes.\nIf you must cancel the appointment, please do so with more than 8 hours in advance.\nCancel Appointment: ${process.env.GATSBY_API_URL}/api/cancel-event?eventId=${id}`,
+      },
+    })
+
     return {
       statusCode: 200,
-      body: JSON.stringify(changeEventStatusToConfirmed.data),
+      body: JSON.stringify(emailSent.data),
     }
   } catch (e) {
     return {
