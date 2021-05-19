@@ -27,10 +27,17 @@ const Booking = () => {
 
   const onChangeDate = d => setDate(d)
 
-  const bookAppointment = async event => {
+  const bookAppointment = async (event, customer) => {
+    const customerReservation = {
+      ...customer,
+      responseStatus: 'needsAction',
+    }
     const e = {
       ...event,
       visibility: 'private',
+      attendees: event.attendees
+        ? [...event.attendees, customerReservation]
+        : [customerReservation],
     }
 
     const res = await fetch('/api/update-calendar-event', {

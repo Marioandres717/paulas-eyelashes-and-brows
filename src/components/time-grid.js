@@ -32,7 +32,7 @@ const EventList = ({ events, book }) => {
                   <Typography variant="body2">{event.location}</Typography>
                 </Grid>
                 <Grid item>
-                  <FormDialog onSubmit={book} />
+                  <FormDialog onSubmit={book} event={event} />
                 </Grid>
               </Grid>
               <Grid item>

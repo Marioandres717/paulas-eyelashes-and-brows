@@ -50,7 +50,7 @@ export default function FormDialog(props) {
 
   const handleSubmit = () => {
     handleClose()
-    props.onSubmit()
+    props.onSubmit(props.event, { email: state.email })
   }
 
   return (
