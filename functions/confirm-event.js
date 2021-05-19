@@ -20,7 +20,7 @@ exports.handler = async (event, _context, callback) => {
     })
 
     const changeEventStatusToConfirmed = await axios({
-      url: `${process.env.GATSBY_API_URL}/api/update-calendar-event`,
+      url: `${process.env.GATSBY_API_URL}/api/update-event`,
       method: 'POST',
       headers: {
         'Content-Type': 'text/html',

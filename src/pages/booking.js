@@ -35,7 +35,7 @@ const Booking = () => {
       status: 'tentative',
     }
 
-    const res = await fetch('/api/update-calendar-event', {
+    const res = await fetch('/api/update-event', {
       method: 'POST',
       body: JSON.stringify({
         event: e,

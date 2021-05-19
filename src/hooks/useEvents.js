@@ -10,7 +10,7 @@ function useEvents() {
 
   async function fetchEvents() {
     setState({ status: 'pending' })
-    const response = await fetch('/api/get-calendar-events')
+    const response = await fetch('/api/get-events')
     try {
       const events = await response.json()
       setState({
