@@ -26,7 +26,7 @@ const reducer = (state, action) => {
   }
 }
 
-export default function FormDialog() {
+export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false)
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
 
@@ -50,6 +50,7 @@ export default function FormDialog() {
 
   const handleSubmit = () => {
     handleClose()
+    props.onSubmit()
   }
 
   return (
