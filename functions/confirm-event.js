@@ -25,7 +25,9 @@ exports.handler = async (event, _context, callback) => {
       headers: {
         'Content-Type': 'text/html',
       },
-      data: JSON.stringify({ event: { ...data, status: 'confirmed' } }),
+      data: JSON.stringify({
+        event: { ...data, status: 'confirmed', visibility: 'private' },
+      }),
     })
 
     return {
