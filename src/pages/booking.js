@@ -50,7 +50,7 @@ const Booking = () => {
     return res
       .json()
       .then(event => {
-        updateEvent(event)
+        updateEvent(e)
       })
       .catch(err => console.error(err))
   }
@@ -80,7 +80,10 @@ const Booking = () => {
           {status === 'pending' ? (
             <h1>Loading!</h1>
           ) : (
-            <TimeGrid events={filterEvents(date)} book={bookAppointment} />
+            <TimeGrid
+              events={filterEvents(date).filter(e => e.visibility === 'public')}
+              book={bookAppointment}
+            />
           )}
         </Grid>
       </Grid>
