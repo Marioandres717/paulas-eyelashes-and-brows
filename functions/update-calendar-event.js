@@ -20,6 +20,12 @@ exports.handler = async event => {
       })
     })
 
+    axios({
+      url: `${process.env.API_URL}/api/send-email-confirmation`,
+      method: 'POST',
+      data: result.data,
+    })
+
     return {
       statusCode: 200,
       body: JSON.stringify(result.data),
