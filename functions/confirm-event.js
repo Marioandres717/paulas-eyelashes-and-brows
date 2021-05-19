@@ -7,7 +7,7 @@ exports.handler = async (event, _context, callback) => {
     const {
       data: { access_token },
     } = await axios({
-      url: `${process.env.API_URL}/api/get-access-token`,
+      url: `${process.env.GATSBY_API_URL}/api/get-access-token`,
       method: 'GET',
     })
 
@@ -20,9 +20,12 @@ exports.handler = async (event, _context, callback) => {
     })
 
     const changeEventStatusToConfirmed = await axios({
-      url: `${process.env.API_URL}/api/update-calendar-event`,
+      url: `${process.env.GATSBY_API_URL}/api/update-calendar-event`,
       method: 'POST',
-      data: JSON.stringify({ ...data, status: 'confirmed' }),
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      data: JSON.stringify({ event: { ...data, status: 'confirmed' } }),
     })
 
     return {

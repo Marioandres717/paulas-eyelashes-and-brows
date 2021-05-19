@@ -12,7 +12,7 @@ import { DatePicker } from '@material-ui/pickers'
 const Booking = () => {
   const [date, setDate] = useState(new Date())
   const {
-    state: { events, status, error },
+    state: { status },
     fetchEvents,
     updateEvent,
     filterEvents,
@@ -37,7 +37,14 @@ const Booking = () => {
 
     const res = await fetch('/api/update-calendar-event', {
       method: 'POST',
-      body: JSON.stringify(e),
+      body: JSON.stringify({
+        event: e,
+        emailInformation: {
+          ...customer,
+          subject: 'Lashes Appointment',
+          text: `You have book an appointment with Paula for eye lashes, please confirm the email to reserve your appointment.\n${process.env.GATSBY_API_URL}/api/confirm-event?eventId=${e.id}`,
+        },
+      }),
     })
 
     return res

@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 const INITIAL_STATE = {
+  name: '',
   email: '',
   status: 'IDLE',
 }
@@ -50,7 +51,7 @@ export default function FormDialog(props) {
 
   const handleSubmit = () => {
     handleClose()
-    props.onSubmit(props.event, { email: state.email })
+    props.onSubmit(props.event, { email: state.email, name: state.name })
   }
 
   return (
@@ -74,6 +75,15 @@ export default function FormDialog(props) {
           <TextField
             margin="dense"
             id="name"
+            label="Name"
+            type="text"
+            fullWidth
+            value={state.name}
+            onChange={updateFieldValue('name')}
+          />
+          <TextField
+            margin="dense"
+            id="email"
             label="Email Address"
             type="email"
             fullWidth

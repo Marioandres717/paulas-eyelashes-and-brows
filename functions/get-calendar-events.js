@@ -6,7 +6,7 @@ const MAX_RESULTS = 50
 exports.handler = async () => {
   try {
     const result = await axios({
-      url: `${process.env.API_URL}/api/get-access-token`,
+      url: `${process.env.GATSBY_API_URL}/api/get-access-token`,
       method: 'GET',
     }).then(({ data }) => {
       return axios({
